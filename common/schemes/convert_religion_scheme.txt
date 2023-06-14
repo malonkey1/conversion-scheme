@@ -18,7 +18,10 @@
 		is_imprisoned = no
 		is_travelling = no
 		scope:target = {
-			NOT = { faith = scope:owner.faith }
+			NOT = {
+				faith = scope:owner.faith
+				has_title = faith.religious_head_title
+			}
 			is_adult = yes
 			is_imprisoned = no
 			is_travelling = no
