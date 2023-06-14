@@ -397,6 +397,48 @@
 			}
 			scope:target.house = scope:owner.house
 		}
+		# Account for hostility
+		first_valid = {
+			modifier = {
+				scope:owner.faith = {
+					faith_hostility_level = {
+						target = scope:target.faith
+						value < faith_astray_level
+					}
+				}
+				add = 10
+				desc = "SCHEME_RIGHTEOUS"
+			}
+			modifier = {
+				scope:owner.faith = {
+					faith_hostility_level = {
+						target = scope:target.faith
+						value < faith_evil_level
+					}
+				}
+				add = -10
+				desc = "SCHEME_HOSTILE"
+			}
+			modifier = {
+				scope:owner.faith = {
+					faith_hostility_level = {
+						target = scope:target.faith
+						value >= faith_evil_level
+					}
+				}
+				add = -20
+				desc = "SCHEME_EVIL"
+			}
+		}
+		# Converting unreformed to reformed of the same religion
+		modifier = {
+			AND = {
+				scope:owner.faith.religion = scope:target.faith.religion
+				NOT = { scope:owner.faith = { has_doctrine_parameter = unreformed } }
+				scope:target.faith = { has_doctrine_parameter = unreformed }
+			}
+			add = 20
+		}
 	}
 
 	agent_success_chance = {

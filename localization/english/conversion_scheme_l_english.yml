@@ -34,6 +34,10 @@
   SCHEME_LIEGE:0 "You are their [liege|E]: $VALUE|+0=$"
   SCHEME_TIER:0 "They rule a [target.GetPrimaryTitle.GetTierAsName]: $VALUE|+0=$"
   SCHEME_PROSELYTIZER:0 "[GetPerk( 'zealous_proselytizer_perk' ).GetName( GetPlayer )]: $VALUE|+0=$"
+  SCHEME_RIGHTEOUS:0 "[target.GetFaith.GetAdherentNamePlural] see [owner.GetFaith.GetAdherentNamePlural] as [faith_righteous|E]: $VALUE|+0=$"
+  SCHEME_HOSTILE:0 "[target.GetFaith.GetAdherentNamePlural] see [owner.GetFaith.GetAdherentNamePlural] as [faith_hostile|E]: $VALUE|+0=$"
+  SCHEME_EVIL:0 "[target.GetFaith.GetAdherentNamePlural] see [owner.GetFaith.GetAdherentNamePlural] as [faith_evil|E]: $VALUE|+0=$"
+  SCHEME_REFORMED:0 "[owner.GetFaith.GetName] is a reformed same-religion faith of unreformed [target.GetFaith.GetName]: $VALUE|+0=$"
 
   vassal_scheme_converted_title:0 "Vassal converted to [owner.GetFaith.GetName]"
   vassal_scheme_converted_desc:0 "Your vassal, [TARGET_CHARACTER.GetShortUIName], has been converted to [owner.GetFaith.GetName] by [owner.GetShortUIName]"
