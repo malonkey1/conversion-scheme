@@ -1,0 +1,220 @@
+namespace = conversion_scheme
+
+
+conversion_scheme.0001 = { #by Mathilda Bjarnehed
+	type = character_event
+	title = conversion_scheme.0001.t
+	desc = conversion_scheme.0001.desc
+	theme = witchcraft
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = scope:target
+	
+	#Yes
+	option = {
+		name = conversion_scheme.0001.a
+
+		if = {
+			limit = { scope:target = { is_ai = no } }
+			scope:target = {
+				trigger_event = {
+					id = conversion_scheme.0002
+					days = 3
+				}
+			}
+		}
+		else_if = {
+			limit = { exists = scope:scheme_successful }
+			trigger_event = {
+				id = conversion_scheme.0003
+				days = 3
+			}
+		}
+		else = {
+			trigger_event = conversion_scheme.0004
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	#No
+	option = {
+		name = conversion_scheme.0001.b
+		scope:scheme = {
+			end_scheme = yes
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+
+conversion_scheme.0002 = { #by Mathilda Bjarnehed
+	type = character_event
+	title = conversion_scheme.0002.t
+	desc = conversion_scheme.0002.desc
+	theme = witchcraft
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = scope:owner
+		animation = personality_dishonorable
+	}
+
+	#Yes I want to convert
+	option = {
+		name = conversion_scheme.0002.a
+
+		show_as_tooltip = {
+			set_character_faith_with_conversion = scope:owner.faith
+		}
+		add_piety = medium_piety_loss
+		
+		scope:owner = {
+			trigger_event = conversion_scheme.0003
+		}
+
+		stress_impact = {
+			zealous = massive_stress_impact_gain
+			craven = medium_stress_impact_gain
+		}
+	}
+
+	#No I don't want to convert
+	option = {
+		name = conversion_scheme.0002.b
+
+		add_piety = medium_piety_gain
+
+		scope:owner = {
+			trigger_event = conversion_scheme.0004
+		}
+
+		if = {
+			limit = { exists = scope:scheme_discovered }
+			reverse_add_opinion = {
+				target = scope:owner
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+		}
+
+		stress_impact = {
+			ambitious = minor_stress_impact_gain
+		}
+	}
+	
+	#Reveal them to the world!
+	option = {
+		trigger = { exists = scope:scheme_discovered }
+		name = conversion_scheme.0002.c
+
+		add_piety = medium_piety_gain
+
+		reverse_add_opinion = {
+			target = scope:owner
+			modifier = hate_opinion
+			opinion = -30
+		}
+
+		scope:owner = {
+			trigger_event = conversion_scheme.0005
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+			trusting = minor_stress_impact_gain
+			zealous = minor_stress_impact_loss
+		}
+	}
+}
+
+
+conversion_scheme.0003 = { #by Mathilda Bjarnehed
+	type = character_event
+	title = conversion_scheme.0003.t
+	desc = conversion_scheme.0003.desc
+	theme = witchcraft
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = scope:target
+		animation = personality_rational
+	}
+	immediate = {
+		scope:target = {
+			set_character_faith_with_conversion = scope:owner.faith
+		}
+		reverse_add_opinion = {
+			target = scope:target
+			modifier = grateful_opinion
+			opinion = 20
+		}
+		if = {
+			limit = { NOT = { scope:target.liege = scope:owner } }
+		}
+		scope:target.liege = {
+			send_interface_toast = {
+				title = vassal_scheme_converted_title
+				left_icon = scope:target
+				custom_description_no_bullet = {
+					object = scope:target
+					text = vassal_scheme_converted_desc
+				}
+			}
+		}
+	}
+
+	#Great!
+	option = {
+		name = conversion_scheme.0003.a
+
+		scope:scheme = {
+			end_scheme = yes
+		}
+	}
+}
+
+conversion_scheme.0004 = { #by Mathilda Bjarnehed
+	type = character_event
+	title = conversion_scheme.0004.t
+	desc = conversion_scheme.0004.desc
+	theme = witchcraft
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = scope:target
+		animation = anger
+	}
+
+	immediate = {
+		reverse_add_opinion = {
+			target = scope:target
+			modifier = impious_opinion
+			opinion = -20
+		}
+		scope:target = {
+			add_character_flag = {	
+				flag = block_convert_to_faith
+				days = 7300
+			}
+		}
+	}
+	
+	option = {
+		name = conversion_scheme.0004.a
+
+		scope:scheme = {
+			end_scheme = yes
+		}
+	}
+}
