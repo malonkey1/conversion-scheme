@@ -22,10 +22,6 @@
 	is_valid_showing_failures_only = {
 		scope:actor = {
 			NOT = { is_at_war_with = scope:recipient }
-			can_start_scheme = {
-				type = convert_to_faith
-				target = scope:recipient
-			}
 		}
 	}
 
@@ -52,7 +48,7 @@
 	#AI will do
 	
 	ai_potential = {
-		scope:actor = { ai_zeal > 0 }
+		ai_zeal > 0
 	}
 	
 	ai_target_quick_trigger = {

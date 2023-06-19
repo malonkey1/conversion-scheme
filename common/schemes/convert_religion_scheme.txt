@@ -70,7 +70,7 @@
 					value < faith_astray_level
 				}
 			}
-			faith.religious_head_title = scope:owner.religious_head_title
+			faith.religious_head_title = scope:owner.faith.religious_head_title
 			has_trait = cynical
 		}
 	}
@@ -180,10 +180,26 @@
 		opinion_modifier = {
 			trigger = {
 				NOT = { this = scope:owner }
+				NOT = { has_trait = cynical }
 			}
 			who = this
 			opinion_target = scope:owner
 			multiplier = 0.25
+			#step = 5
+			desc = SCHEME_MY_OPINION_OF_YOU
+		}
+		opinion_modifier = {
+			trigger = {
+				NOT = { this = scope:owner }
+				has_trait = cynical
+				# Cynical characters get a weakened opinion mod (both ways)
+			}
+			who = this
+			opinion_target = scope:owner
+			multiplier = {
+				value = 0.125
+			}
+
 			#step = 5
 			desc = SCHEME_MY_OPINION_OF_YOU
 		}
@@ -212,7 +228,7 @@
 			desc = "SCHEME_PROSELYTIZER"
 			add = {
 				value = scope:owner.learning
-				multiply = 5
+				multiply = 3
 			}
 		}
 
@@ -305,6 +321,15 @@
 			add = {
 				value = 10
 				multiply = scope:target.num_sinful_traits
+				max = 50
+			}
+		}
+		modifier = {
+			scope:target = { num_virtuous_traits > 0 }
+			desc = "SCHEME_SAINT"
+			add = {
+				value = 10
+				multiply = scope:target.num_virtuous_traits
 				max = 50
 			}
 		}
@@ -406,8 +431,18 @@
 						value < faith_astray_level
 					}
 				}
-				add = 10
+				add = 5
 				desc = "SCHEME_RIGHTEOUS"
+			}
+			modifier = {
+				scope:owner.faith = {
+					faith_hostility_level = {
+						target = scope:target.faith
+						value < faith_hostile_level
+					}
+				}
+				add = -5
+				desc = "SCHEME_ASTRAY"
 			}
 			modifier = {
 				scope:owner.faith = {
@@ -416,7 +451,7 @@
 						value < faith_evil_level
 					}
 				}
-				add = -10
+				add = -15
 				desc = "SCHEME_HOSTILE"
 			}
 			modifier = {
@@ -426,7 +461,7 @@
 						value >= faith_evil_level
 					}
 				}
-				add = -20
+				add = -25
 				desc = "SCHEME_EVIL"
 			}
 		}
@@ -438,6 +473,7 @@
 				scope:target.faith = { has_doctrine_parameter = unreformed }
 			}
 			add = 20
+			desc = "SCHEME_REFORMED"
 		}
 	}
 
