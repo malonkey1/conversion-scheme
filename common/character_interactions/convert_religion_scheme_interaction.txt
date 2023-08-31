@@ -102,6 +102,13 @@
 			house = scope:recipient.house
 			add = 10
 		}
+		modifier = {
+			OR = {
+				scope:recipient.liege = scope:actor
+				scope:actor.liege = scope:recipient
+			}
+			add = 15
+		}
 
 		# Do I want to spread the word
 		ai_value_modifier = {
@@ -109,7 +116,7 @@
 			ai_compassion = 0.1
 			ai_boldness = 0.4
 			ai_zeal = 0.25
-			min = -20
+			min = -40
 		}
 	}
 }
